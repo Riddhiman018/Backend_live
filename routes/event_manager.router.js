@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const express = require('express')
 const tournament = require('../models/tournament.model')
 const {createMatches,saveMatch} = require('../Functions/createMatches.singles')
-
+const cluster = require('cluster')
 const evrouter = express.Router()
 //---------------------------------
 //controller functions
@@ -41,7 +41,9 @@ evrouter.post('/createMatches',async (req,res)=>{
         }
         res.status(200).send({
             Message:'Created Matches'
-        })        
+        })       
+        console.log(process.pid); 
+        cluster.worker.kill()
     }catch(err){
         console.log(err);
         res.status(404).send({
